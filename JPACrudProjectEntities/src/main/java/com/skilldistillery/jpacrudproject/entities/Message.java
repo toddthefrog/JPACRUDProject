@@ -13,9 +13,6 @@ public class Message {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	@Column(name = "location_key")
-	private String locationKey;
-
 	@Column(name = "user_name")
 	private String userName;
 
@@ -25,14 +22,11 @@ public class Message {
 	@Column(name = "message_body")
 	private String messageBody;
 
-	@Column(name = "create_date")
+	@Column(name = "creation_date")
 	private String creationDate;
 
 	@Column(name = "last_edited")
 	private String lastEdited;
-
-	@Column(name = "child_of")
-	private String childOf;
 
 	public Message() {
 		super();
@@ -44,14 +38,6 @@ public class Message {
 
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	public String getLocationKey() {
-		return locationKey;
-	}
-
-	public void setLocationKey(String locationKey) {
-		this.locationKey = locationKey;
 	}
 
 	public String getUserName() {
@@ -94,19 +80,12 @@ public class Message {
 		this.lastEdited = lastEdited;
 	}
 
-	public String getChildOf() {
-		return childOf;
-	}
-
-	public void setChildOf(String childOf) {
-		this.childOf = childOf;
-	}
-
 	@Override
 	public String toString() {
-		return "Message [id=" + id + ", locationKey=" + locationKey + ", userName=" + userName + ", messageTitle="
-				+ messageTitle + ", messageBody=" + messageBody + ", creationDate=" + creationDate + ", lastEdited="
-				+ lastEdited + ", childOf=" + childOf + "]";
+		return "Message [id=" + id + ", userName=" + userName + ", messageTitle=" + messageTitle + ", messageBody="
+				+ messageBody + ", creationDate=" + creationDate + ", lastEdited=" + lastEdited + "]";
 	}
+
+	
 
 }

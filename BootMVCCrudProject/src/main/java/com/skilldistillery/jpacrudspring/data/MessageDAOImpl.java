@@ -1,6 +1,6 @@
 package com.skilldistillery.jpacrudspring.data;
 
-import java.util.Date;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -18,17 +18,17 @@ public class MessageDAOImpl implements MessageDAO {
 	private EntityManager em;
 
 	@Override
-	public Message create(Message message) {
+	public Message addMessage(Message message) {
 
 		if (message != null) {
 			// start the transaction
-			em.getTransaction().begin();
+			// em.getTransaction().begin();
 			// write the customer to the database
 			em.persist(message);
 			// update the "local" Customer object
 			em.flush();
 			// commit the changes (actually perform the operation)
-			em.getTransaction().commit();
+			//em.getTransaction().commit();
 
 		}
 
@@ -36,38 +36,29 @@ public class MessageDAOImpl implements MessageDAO {
 	}
 
 	@Override
-	public Message createLocationKey(String locationKeyA, String locationKeyB, String locationKeyC) {
+	public List<Message> getAllMessages() {
+		
+		String query = "SELECT m FROM Message m";
 
-		String s = null;
+		return em.createQuery(query, Message.class).getResultList();
+	}
 
-		Message message = new Message();
+	@Override
+	public Message getMessage(int id) {
+		
+		return em.find(Message.class, id);
+	}
 
-		String messageBody = "Hello!  This is a test message.";
+	@Override
+	public void deleteMessage(int id) {
+		// TODO Auto-generated method stub
 
-		if (locationKeyA != null) {
-			if (locationKeyB != null) {
-				if (locationKeyC != null) {
-					s = locationKeyA + locationKeyB + locationKeyC;
+	}
 
-				}
-
-			}
-		}
-
-		String queryString = "SELECT message FROM Message m WHERE message.locationKey = :locationKey AND message.id is null";
-
-		Message result = em.createQuery(queryString, Message.class).setParameter("locationKey", s).getSingleResult();
-
-		if (result == null) {
-			message.setLocationKey(s);
-			message.setMessageBody(messageBody);
-			Date date = new Date();
-			message.setCreationDate(date.toString());
-			create(message);
-		}
-
-		return result;
-
+	@Override
+	public Message updateMessage(Message message) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

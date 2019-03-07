@@ -1,5 +1,7 @@
 package com.skilldistillery.jpacrudspring.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,25 +18,36 @@ public class MessageController {
 	private MessageDAO dao;
 
 	@RequestMapping(path = "/", method = RequestMethod.GET)
-	public String index() {
-		return "WEB-INF/index.jsp";
+	public ModelAndView index() {
+		// call getAllMessages();
+		ModelAndView mv = new ModelAndView();
+		List<Message> allMessages = dao.getAllMessages();
+		mv.addObject("resultList", allMessages);
+		mv.setViewName("WEB-INF/message/show.jsp");
+		return mv;
 	}
 
-	@RequestMapping(path = "getLocation.do", method = RequestMethod.GET)
-	public ModelAndView getLocation(
-			@RequestParam("locationKeyA") String locationKeyA,
-			@RequestParam("locationKeyB") String locationKeyB, 
-			@RequestParam("locationKeyC") String locationKeyC
-			) {
-		
+	@RequestMapping(path = "add.do", method = RequestMethod.GET)
+	public ModelAndView displayMessageForm() {
 		ModelAndView mv = new ModelAndView();
-		
-		Message message = dao.createLocationKey(locationKeyA, locationKeyB, locationKeyC);
-		System.out.println(message.toString());
-		
-		mv.setViewName("WEB-INF/message/show.jsp");
-		
-		
+		mv.setViewName("WEB-INF/message/add.jsp");
+		return mv;
+	}
+	
+	@RequestMapping(path = "add.do", method = RequestMethod.POST)
+	public ModelAndView createMessage(Message message) {
+		ModelAndView mv = new ModelAndView();
+		dao.addMessage(message);
+		mv.setViewName("redirect:/");
+		return mv;
+	}
+	
+	@RequestMapping(path = "getMessage.do", method = RequestMethod.GET)
+	public ModelAndView getMessage(@RequestParam("fid")int id) {
+		ModelAndView mv = new ModelAndView();
+		Message message = dao.getMessage(id);
+		mv.addObject("message", message);
+		mv.setViewName("WEB-INF/message/singleMessage.jsp");
 		return mv;
 	}
 
