@@ -46,9 +46,19 @@ public class MessageController {
 	public ModelAndView getMessage(@RequestParam("fid")int id) {
 		ModelAndView mv = new ModelAndView();
 		Message message = dao.getMessage(id);
-		mv.addObject("message", message);
+		mv.addObject(message);
 		mv.setViewName("WEB-INF/message/singleMessage.jsp");
 		return mv;
 	}
+	
+	@RequestMapping(path = "editMessage.do", method = RequestMethod.POST)
+	public ModelAndView editMessage(@RequestParam("id")int id, Message message) {
+		ModelAndView mv = new ModelAndView();
+		dao.updateMessage(message, id);
+		mv.addObject("message", message);
+		mv.setViewName("redirect:/");
+		return mv;
+	}
+
 
 }

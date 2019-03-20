@@ -1,5 +1,6 @@
 package com.skilldistillery.jpacrudspring.data;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -19,6 +20,10 @@ public class MessageDAOImpl implements MessageDAO {
 
 	@Override
 	public Message addMessage(Message message) {
+		
+		Date now = new Date();
+		message.setCreationDate(now.toString());
+		message.setLastEdited(now.toString());
 
 		if (message != null) {
 			// start the transaction
@@ -28,7 +33,7 @@ public class MessageDAOImpl implements MessageDAO {
 			// update the "local" Customer object
 			em.flush();
 			// commit the changes (actually perform the operation)
-			//em.getTransaction().commit();
+			// em.getTransaction().commit();
 
 		}
 
@@ -37,7 +42,7 @@ public class MessageDAOImpl implements MessageDAO {
 
 	@Override
 	public List<Message> getAllMessages() {
-		
+
 		String query = "SELECT m FROM Message m";
 
 		return em.createQuery(query, Message.class).getResultList();
@@ -45,7 +50,7 @@ public class MessageDAOImpl implements MessageDAO {
 
 	@Override
 	public Message getMessage(int id) {
-		
+
 		return em.find(Message.class, id);
 	}
 
@@ -56,9 +61,18 @@ public class MessageDAOImpl implements MessageDAO {
 	}
 
 	@Override
-	public Message updateMessage(Message message) {
-		// TODO Auto-generated method stub
-		return null;
+	public Message updateMessage(Message message, int id) {
+		Message toBeEdited = em.find(Message.class, id);
+		toBeEdited.setMessageTitle(message.getMessageTitle());
+		toBeEdited.setMessageBody(message.getMessageBody());
+		toBeEdited.setUserName(message.getUserName());
+		Date now = new Date();
+		toBeEdited.setLastEdited(now.toString());
+
+		em.persist(toBeEdited);
+		em.flush();
+
+		return toBeEdited;
 	}
 
 }

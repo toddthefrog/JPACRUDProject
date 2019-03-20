@@ -27,6 +27,17 @@ public class Message {
 
 	@Column(name = "last_edited")
 	private String lastEdited;
+	
+	@Column(name = "is_active")
+	private boolean isActive;
+
+	public boolean isActive() {
+		return isActive;
+	}
+
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
+	}
 
 	public Message() {
 		super();
@@ -83,9 +94,9 @@ public class Message {
 	@Override
 	public String toString() {
 		return "Message [id=" + id + ", userName=" + userName + ", messageTitle=" + messageTitle + ", messageBody="
-				+ messageBody + ", creationDate=" + creationDate + ", lastEdited=" + lastEdited + "]";
+				+ messageBody + ", creationDate=" + creationDate + ", lastEdited=" + lastEdited + ", isActive="
+				+ isActive + "]";
 	}
-
 	
-
+	
 }
