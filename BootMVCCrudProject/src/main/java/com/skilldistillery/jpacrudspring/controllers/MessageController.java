@@ -59,6 +59,14 @@ public class MessageController {
 		mv.setViewName("redirect:/");
 		return mv;
 	}
+	
+	@RequestMapping(path = "deleteMessage.do", method = RequestMethod.GET)
+	public ModelAndView deleteMessage(@RequestParam("fid")int id) {
+		ModelAndView mv = new ModelAndView();
+		dao.deleteMessage(id);
+		mv.setViewName("redirect:/");
+		return mv;
+	}
 
 
 }

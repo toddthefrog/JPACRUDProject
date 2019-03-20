@@ -56,8 +56,8 @@ public class MessageDAOImpl implements MessageDAO {
 
 	@Override
 	public void deleteMessage(int id) {
-		// TODO Auto-generated method stub
-
+		em.remove(em.find(Message.class, id));
+		em.flush();
 	}
 
 	@Override
