@@ -67,6 +67,24 @@ public class MessageController {
 		mv.setViewName("redirect:/");
 		return mv;
 	}
+	
+	@RequestMapping(path = "undeleteMessage.do", method = RequestMethod.GET)
+	public ModelAndView showCompletedMessages(@RequestParam("fid")int id) {
+		ModelAndView mv = new ModelAndView();
+		dao.undeleteMessage(id);
+		mv.setViewName("redirect:/");
+		return mv;
+	}
+	
+	@RequestMapping(path = "showCompleted.do", method = RequestMethod.GET)
+	public ModelAndView showCompleted() {
+		// call getAllMessages();
+		ModelAndView mv = new ModelAndView();
+		List<Message> allMessages = dao.getAllMessages();
+		mv.addObject("resultList", allMessages);
+		mv.setViewName("WEB-INF/message/finished.jsp");
+		return mv;
+	}
 
 
 }

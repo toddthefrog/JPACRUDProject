@@ -24,6 +24,7 @@ public class MessageDAOImpl implements MessageDAO {
 		Date now = new Date();
 		message.setCreationDate(now.toString());
 		message.setLastEdited(now.toString());
+		message.setActive(true);
 
 		if (message != null) {
 			// start the transaction
@@ -56,7 +57,8 @@ public class MessageDAOImpl implements MessageDAO {
 
 	@Override
 	public void deleteMessage(int id) {
-		em.remove(em.find(Message.class, id));
+		Message message = em.find(Message.class, id);
+		message.setActive(false);
 		em.flush();
 	}
 
@@ -73,6 +75,14 @@ public class MessageDAOImpl implements MessageDAO {
 		em.flush();
 
 		return toBeEdited;
+	}
+
+	@Override
+	public void undeleteMessage(int id) {
+		Message message = em.find(Message.class, id);
+		message.setActive(true);
+		em.persist(message);
+		em.flush();
 	}
 
 }

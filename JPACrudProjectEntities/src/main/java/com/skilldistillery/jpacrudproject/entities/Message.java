@@ -31,7 +31,7 @@ public class Message {
 	@Column(name = "is_active")
 	private boolean isActive;
 
-	public boolean isActive() {
+	public boolean getIsActive() {
 		return isActive;
 	}
 
